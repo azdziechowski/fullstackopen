@@ -1,26 +1,52 @@
-import { useState } from "react";
-
-const Display = ({counter}) => <div>{counter}</div>
-const Button = ({text, onClick}) => <button onClick={onClick}> {text} </button>
-
 const App = () => {
-  const [counter, setCounter] = useState(0);
+  const course = 'Half Stack application development'
+  const part1 = 'Fundamentals of React'
+  const exercises1 = 10
+  const part2 = 'Using props to pass data'
+  const exercises2 = 7
+  const part3 = 'State of a component'
+  const exercises3 = 14
 
-  const incrementCounter = () => setCounter(counter + 1);
-
-  const decrementCounter = () => counter > 0 
-    ? setCounter(counter - 1) 
-    : setCounter(counter);
-
-  const resetCounter = () => setCounter(0);
+  const parts = [
+    { partName: part1, exercisesCount: exercises1 },
+    { partName: part2, exercisesCount: exercises2 },
+    { partName: part3, exercisesCount: exercises3 }
+  ]
 
   return (
     <div>
-      <Display counter={counter} />
-      <Button text='increment' onClick={incrementCounter} />
-      <Button text='decrement' onClick={decrementCounter} />
-      <Button text='reset' onClick={resetCounter} />
+      <Header course={course} />
+      <Content parts={parts} />
+      <Total parts={parts} />
     </div>
   )
 }
+
+
+const Header = ({course}) => <h1>{course}</h1>;
+
+const Content = ({parts}) => {
+  const rows = [];
+  for (let i = 0; i < parts.length; i++) {
+    rows.push(<Part key={i} partName={parts[i].partName} exercisesCount={parts[i].exercisesCount} />);
+  }
+
+  return (
+    <div>
+      {rows}
+    </div>
+  )
+}
+const Part = ({partName, exercisesCount}) => <p>{partName} {exercisesCount}</p>;
+
+const Total = ({parts}) => 
+{
+  const total = parts.map(x => x.exercisesCount).reduce((a, b) => a + b);
+  return (
+    <p>Number of exercises {total}</p>
+  )
+}
+
+
+
 export default App
